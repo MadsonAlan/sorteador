@@ -2,13 +2,70 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sorteador/src/configuracoes.dart';
 import 'package:sorteador/src/resultado.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
+// You can also test with your own ad unit IDs by registering your device as a
+// test device. Check the logs for your device's ID value.
+const String testDevice = 'ca-app-pub-2413745674362916~7325689311';
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  BannerAd myBanner;
+  InterstitialAd myInterstitial;
+
+  static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+    testDevices: testDevice != null ? <String>[testDevice] : null,
+    keywords: <String>['shopping', 'beautiful apps', 'promotions'],
+    contentUrl: 'http://foo.com/bar.html',
+    childDirected: true,
+    nonPersonalizedAds: true,
+  );
+
+  BannerAd _bannerAd;
+  NativeAd _nativeAd;
+  InterstitialAd _interstitialAd;
+
+  BannerAd createBannerAd() {
+    return BannerAd(
+      adUnitId: "ca-app-pub-2413745674362916/4842958217",
+      //adUnitId: BannerAd.testAdUnitId,
+      size: AdSize.banner,
+      targetingInfo: targetingInfo,
+      listener: (MobileAdEvent event) {
+        print("BannerAd event $event");
+      },
+    );
+  }
+
+  InterstitialAd createInterstitialAd() {
+    return InterstitialAd(
+      adUnitId: "ca-app-pub-2413745674362916/4962377719",
+      //adUnitId: InterstitialAd.testAdUnitId,
+      targetingInfo: targetingInfo,
+      listener: (MobileAdEvent event) {
+        print("InterstitialAd event $event");
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAdMob.instance.initialize(appId: FirebaseAdMob.testAppId);
+    _bannerAd = createBannerAd()..load();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    _nativeAd?.dispose();
+    _interstitialAd?.dispose();
+    super.dispose();
+  }
+
   TextEditingController _controllerMinimo = TextEditingController();
   TextEditingController _controllerMaximo = TextEditingController();
   int valorMinimo;
@@ -69,6 +126,9 @@ class _HomeState extends State<Home> {
               builder: (context) => Resultado(
                   _espacoDoSorteio, valorMinimo, valorMaximo, quantidade)));
     } else {
+      _interstitialAd?.dispose();
+      _interstitialAd = createInterstitialAd()..load();
+      _interstitialAd?.show();
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -87,14 +147,18 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    _bannerAd ??= createBannerAd();
+    _bannerAd
+      ..load()
+      ..show();
     _portraitModeOnly();
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(32),
+        padding: EdgeInsets.all(22),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[          
+          children: <Widget>[
             Padding(
                 padding: EdgeInsets.only(top: 32, left: 0, right: 0),
                 child: Text(
@@ -168,3 +232,5 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+

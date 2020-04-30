@@ -29,7 +29,7 @@ class _ConfigState extends State<Config> {
     _setarInformacoes();
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(32),
+        padding: EdgeInsets.all(22),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,

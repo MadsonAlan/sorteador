@@ -5,16 +5,16 @@ class Config extends StatefulWidget {
   var valoresBase = [];
   int menorValor;
   int maiorValor;
-  Config(this.valoresBase, this.menorValor, this.maiorValor);
+  Config(this.valoresBase, this.menorValor, this.maiorValor, {super.key});
   @override
-  _ConfigState createState() => _ConfigState();
+  ConfigState createState() => ConfigState();
 }
 
-class _ConfigState extends State<Config> {
+class ConfigState extends State<Config> {
   var _espacoDoSorteio = [];
-  int valorMinimo;
-  int valorMaximo;
-  int quantidade;
+  int valorMinimo = 0;
+  int valorMaximo = 0;
+  int quantidade = 0;
   double _alterador = 1;
   void _setarInformacoes() {
     setState(() {
@@ -29,12 +29,12 @@ class _ConfigState extends State<Config> {
     _setarInformacoes();
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(22),
+        padding: const EdgeInsets.all(22),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
+            const Padding(
                 padding: EdgeInsets.only(top: 32, bottom: 52),
                 child: Text(
                   "Escolha abaixo quantos números deseja sortear",
@@ -44,26 +44,25 @@ class _ConfigState extends State<Config> {
                   ),
                 )),
             Padding(
-              padding: EdgeInsetsDirectional.only(bottom: 32),
+              padding: const EdgeInsetsDirectional.only(bottom: 32),
               child: Slider(
-                value: _alterador,
-                min: 1,
-                max: _espacoDoSorteio.length.toDouble(),
-                label: _alterador.toString(),
-                divisions: _espacoDoSorteio.length-1,
-                onChanged: (double novoValor) {
-                  setState(() {
-                    _alterador = novoValor;
-                  });
-                }),
-              ),
-            RaisedButton(
-                color: Colors.blue,
-                textColor: Colors.white,
-                padding: EdgeInsets.fromLTRB(32, 10, 32, 10),
-                child: Text(
+                  value: _alterador,
+                  min: 1,
+                  max: _espacoDoSorteio.length.toDouble(),
+                  label: _alterador.toString(),
+                  divisions: _espacoDoSorteio.length - 1,
+                  onChanged: (double novoValor) {
+                    setState(() {
+                      _alterador = novoValor;
+                    });
+                  }),
+            ),
+            ElevatedButton(
+                // color: Colors.blue,
+                // padding: EdgeInsets.fromLTRB(32, 10, 32, 10),
+                child: const Text(
                   "Confirmar",
-                  style: TextStyle(fontSize: 22),
+                  style: TextStyle(fontSize: 22, color: Colors.white),
                 ),
                 onPressed: () {
                   setState(() {

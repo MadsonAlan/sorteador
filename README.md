@@ -4,6 +4,9 @@
 
 application created to perform draws of various numbers without repeating them. So if you're going to draw, this is the perfect application for you. It works in the browser, on android and iOS devices as well.
 
+## Running Demonstration web
+You can test the web version that is published here by github by the link: [https://madsonalan.github.io/sorteador/#/](https://madsonalan.github.io/sorteador/#/)
+
 ## Running Development Server on browser
 
 ```bash

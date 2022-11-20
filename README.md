@@ -1,6 +1,18 @@
 # sorteador
 
-A new Flutter project.
+![sorteio fácil](/imagens/sorteioFacil.png)
+
+application created to perform draws of various numbers without repeating them. So if you're going to draw, this is the perfect application for you. It works in the browser, on android and iOS devices as well.
+
+## Running Development Server on browser
+
+```bash
+  flutter run --no-sound-null-safety
+```
+
+## Running in Android Studio on the virtual device or on your device after setting up through flutter getting started 
+
+f5
 
 ## Getting Started
 
